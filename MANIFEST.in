@@ -1,0 +1,4 @@
+global-include *.json *.yaml *.md *.txt *.py
+graft LICENSE
+graft README.md
+global-exclude *.py[cod~] __pycache__ *.so
