@@ -23,6 +23,7 @@ setup(
     use_scm_version=True,
     description='Knowledge Ontology-based OOP language',
     long_description=long_description,
+    long_description_content_type="text/markdown",
     author='Imitation Learning Group CIIRC CVUT',
     maintainer_email='radoslav.skoviera@cvut.cz',
     url='',
