@@ -11,16 +11,27 @@ credentials:
     branch: master
     tags: true
 
+cache: pip
+
 os:
 - linux
 # - windows  # commented our since there is no Python support in CI-win
-- osx
+# - osx
 
-python:
-- '3.5'
-- '3.6'
-- '3.7'
-# - 3.8-dev
+matrix:
+  include:
+    - python: 3.5
+      env: TOXENV=ci35
+
+    - python: 3.6
+      env: TOXENV=ci36
+
+    - python: 3.7
+      env: TOXENV=ci37
+
+    - python: 3.8
+      env: TOXENV=ci38
+
 
 before_install:
 - python --version
