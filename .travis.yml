@@ -13,18 +13,20 @@ credentials:
 
 os:
 - linux
-- windows
+# - windows  # commented our since there is no Python support in CI-win
+- osx
 
 python:
 - '3.5'
 - '3.6'
 - '3.7'
-- 3.8-dev
+# - 3.8-dev
 
 before_install:
 - python --version
 - pip install -U pip
 - pip install -U pytest
+- pip install tox
 - pip install codecov
 
 install:
@@ -37,7 +39,7 @@ env:
 after_success:
 - codecov
 
-script: pytest
+script: tox
 
 deploy:
   provider: pypi
