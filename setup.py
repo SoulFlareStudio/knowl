@@ -15,20 +15,17 @@ test_requirements = [
 with open("README.md", "r") as f:
     long_description = f.read()
 
-with open("LICENSE", "r") as f:
-    license_text = f.read()
-
 setup(
     name='knowl',
     use_scm_version=True,
     description='Knowledge Ontology-based OOP language',
+    long_description_content_type='text/markdown',
     long_description=long_description,
-    long_description_content_type="text/markdown",
     author='Imitation Learning Group CIIRC CVUT',
     maintainer_email='radoslav.skoviera@cvut.cz',
     url='',
     download_url='',
-    license=license_text,
+    license='Mozilla Public License Version 2.0',
     install_requires=requirements,
     dependency_links=dependency_links,
     package_dir={'': "src"},
