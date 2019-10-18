@@ -57,6 +57,7 @@ matrix:
   allow_failures:
     - os: windows
     - python: 3.8
+    - python: 2.7
     - env: TOXENV=flake8
     - env: TOXENV=cov-report
 
