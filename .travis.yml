@@ -89,5 +89,5 @@ deploy:
   on:
     branch: master
     distributions: sdist bdist_wheel
-    tags: false
+    tags: true
     python: 3.7
