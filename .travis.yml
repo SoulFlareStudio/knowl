@@ -29,15 +29,30 @@ matrix:
     - python: 3.7
       env: TOXENV=ci37
 
-    - python: 3.8
+    - name: Python 3.8
+      python: 3.8
       env: TOXENV=ci38
 
-  allow_failures:
+    - name: "Python 3.7.4 on Windows"
+      os: windows           # Windows 10.0.17134 N/A Build 17134
+      language: shell       # 'language: python' is an error on Travis CI Windows
+      before_install:
+        - choco install python --version 3.7.4
+        - python -m pip install --upgrade pip
+      env:
+        TOXENV=ci37
+        PATH=/c/Python37:/c/Python37/Scripts:$PATH
+
     - python: 3.7
       env: TOXENV=flake8
 
     - python: 3.7
       env: TOXENV=cov-report
+
+  allow_failures:
+    - python: 3.8
+    - env: TOXENV=flake8
+    - env: TOXENV=cov-report
 
 
 before_install:
