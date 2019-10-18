@@ -3,40 +3,41 @@ git:
   depth: false
 
 credentials:
-  - &pypi
-    provider: pypi
-    user: __token__
-    password:
-      secure: VX6k2AMOaYZxIhreapNb0HY9Cj+V+3BKbgS7mPg6rDCOtmwCLmvqH80UUZNd+xm/7HWfjv2yApxREYppf5QJLthWNhsd6p6ssdV64oM3DgO2hD14mbf0fd8O7fjCrMAPRQfrnrIsZL8LmH3kvr1yHmNId6z/7FNY68xcoxQe1Wz1KWaYn3lZNqQX0rrx9q/LQRd6R8J0F4F3/d1FQQLFdX+3Nb3CJb0Z/hn6tF2L+lmNZFvibJrB2QQ4ISG9Hgv1N8Vreqz3+xQepKaLaR1nNwAIh1rh3NxPf3UY9v6q/iTxeCKlilkvQ5CTJgG80xcnlcEm8jKzZ6a1HhTOMz1VDTCnaR4Za+7T31eAf5NVCKBqTtR6yX2hTigdn/3AQbN92E80/uGECNYAeDyCaXDPzdnad3vidrMZtRPrSrOUyV5cZNOGKx765JXv6LYJGaSfzEYWiXT8T9lIBca1sOjCrncA/ztD28sc5wvjEIHfipXY9UJ3eNRdh5z2t5aYXSXvIYgVHeSEEupuEDF1M8wwcH7PuSTXNOHUz9rPz/59+NLV5K4LRaWus7WmU4Ux4+H+hgHBUR8T2YNmwznta5qsnRT0SUFEZQPmY9VCU1h1NCYE8KF2ZWOItsmSbemwaFY6zRzKsdelD4JwG147zcTeV+xGumCbtv8wSlakPoNDc9M=
-    on:
-      branch: master
-      tags: true
+- provider: pypi
+  user: __token__
+  password:
+    secure: VX6k2AMOaYZxIhreapNb0HY9Cj+V+3BKbgS7mPg6rDCOtmwCLmvqH80UUZNd+xm/7HWfjv2yApxREYppf5QJLthWNhsd6p6ssdV64oM3DgO2hD14mbf0fd8O7fjCrMAPRQfrnrIsZL8LmH3kvr1yHmNId6z/7FNY68xcoxQe1Wz1KWaYn3lZNqQX0rrx9q/LQRd6R8J0F4F3/d1FQQLFdX+3Nb3CJb0Z/hn6tF2L+lmNZFvibJrB2QQ4ISG9Hgv1N8Vreqz3+xQepKaLaR1nNwAIh1rh3NxPf3UY9v6q/iTxeCKlilkvQ5CTJgG80xcnlcEm8jKzZ6a1HhTOMz1VDTCnaR4Za+7T31eAf5NVCKBqTtR6yX2hTigdn/3AQbN92E80/uGECNYAeDyCaXDPzdnad3vidrMZtRPrSrOUyV5cZNOGKx765JXv6LYJGaSfzEYWiXT8T9lIBca1sOjCrncA/ztD28sc5wvjEIHfipXY9UJ3eNRdh5z2t5aYXSXvIYgVHeSEEupuEDF1M8wwcH7PuSTXNOHUz9rPz/59+NLV5K4LRaWus7WmU4Ux4+H+hgHBUR8T2YNmwznta5qsnRT0SUFEZQPmY9VCU1h1NCYE8KF2ZWOItsmSbemwaFY6zRzKsdelD4JwG147zcTeV+xGumCbtv8wSlakPoNDc9M=
+  on:
+    branch: master
+    tags: true
 
 os:
-  - linux
-  - windows
+- linux
+- windows
 
 python:
-  - '3.5'
-  - '3.6'
-  - '3.7'
-  - '3.8-dev'
+- '3.5'
+- '3.6'
+- '3.7'
+- 3.8-dev
 
 before_install:
-  - python --version
-  - pip install -U pip
-  - pip install -U pytest
-  - pip install codecov
+- python --version
+- pip install -U pip
+- pip install -U pytest
+- pip install codecov
 
 install:
-  - pip install -r requirements.txt
-  - pip install ".[tests]" .
+- pip install -r requirements.txt
+- pip install ".[test]" .
+
+env:
+  secure: ImN6vqolX0brSlcpkM1AY9C/AxxClTID5UiDoJ6g86xy57bbD95OfP3WMdoCTXPeWXteIOV9Pid6Pywt3z3Rkb+IztgwjyP/GjfG/YE9ZIeSfE1Yber6nVXqqmjXtrpcPls9xZ5BbRFyw9FEzhpZnVo+Ecy+REQ4VTyJFjG7dMlgqaJB7MmgeIz2uCotmkwdUw2nxgsFQdsYL2knbM5e9xSvR5S0td3H+099Jh4M+cJRvX52sjyrj7lhXfOs8sZ7DrrKwj6dJH+raiwM8U1OEMBfwxz2cgKwuIGxHvGX49oJBftWDz5tfFCPPBW5YKsDzJvji6EAETyHIOY5AVCdVSZuAjkqWpxZRWfKbMQOc+ZG9Knr43Z4o7s1rlrAriRdRAZ1FpMEWngdjahUBLYxySZCobYv/flGZyl0wgW2r+qT5DXsVTdjZC/phm84uSgjwdj4vfIJZs4bx0o0W9kNW237fvHuPNnVg75I8c+r83wWOFSrzud3lbMt0VVKsXEC+aFXwWxvIK5Zzp5lo3fUdMe7PQ/r0axAtJT7td+tEbiN5ZTPQ534yx3ENg+YtKvjvI7HEoT9Gp07e+Gu8uaVhms5cnWl06iKgYizW7fuLAigYg8DhJ3cVYPmo5xjjkcx0VgLpDeMqA61ZQXzrE/TyHgFxaNDS1HEJHjSdc+yv7c=
 
 after_success:
-  - codecov # submit coverage
+- codecov
 
-script:
-  pytest
+script: pytest
 
 deploy:
   provider: pypi

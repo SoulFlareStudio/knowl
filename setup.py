@@ -1,6 +1,5 @@
 from setuptools import setup
 from setuptools import find_packages
-import re
 
 
 with open('requirements.txt') as f:
@@ -10,7 +9,7 @@ with open('dependency_links.txt') as f:
     dependency_links = [l.strip() for l in f]
 
 test_requirements = [
-    'pytest', 'coverage', 'pytest-cov'
+    'pytest', 'coverage', 'pytest-cov', 'pyyaml', "codecov"
 ]
 
 with open("README.md", "r") as f:
@@ -34,7 +33,7 @@ setup(
     package_dir={'': "src"},
     include_package_data=True,
     setup_requires=['setuptools_scm'],
-    packages=find_packages(exclude=["tests", "data"]),
+    packages=find_packages("src", exclude=["tests", "data"]),
     extras_require={
         "test": test_requirements
     },
