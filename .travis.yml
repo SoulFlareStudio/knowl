@@ -32,7 +32,7 @@ matrix:
     - python: 3.7
       env:
         TOXENV=ci37
-        WHEEL_PATH=.tox/dist
+        WHEEL_PATH=wheelhouse
 
     - name: Python 3.8
       python: 3.8
@@ -95,8 +95,10 @@ after_success:
 
 script:
   - tox
+  - ls wheelhouse
   - |
-    if [[ $TRAVIS_TAG ]] && [[ -n ${WHEEL_PATH:-} ]]; then
+    # if [[ $TRAVIS_TAG ]] && [[ -n ${WHEEL_PATH:-} ]]; then
+    if [[ -n ${WHEEL_PATH:-} ]]; then
       twine upload --repository-url https://upload.pypi.org/legacy/ --skip-existing $WHEEL_PATH/*.whl
     else
       echo ">>> Deploy conditions not met, skipping upload. <<<"
