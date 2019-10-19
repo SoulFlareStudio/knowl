@@ -98,6 +98,8 @@ script:
   - |
     if [[ $TRAVIS_TAG ]] && [[ -n ${WHEEL_PATH:-} ]]; then
       twine upload --repository-url https://upload.pypi.org/legacy/ --skip-existing $WHEEL_PATH/*.whl
+    else
+      echo "Deploy conditions not met, skipping upload."
     fi
 
   # - pip install -U pip
