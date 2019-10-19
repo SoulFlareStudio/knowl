@@ -84,12 +84,11 @@ install:
 - pip install -r requirements.txt
 - pip install ".[test]" .
 
-env:
-  global:
-    - PIP=pip
-    - TWINE_USERNAME=__token__
-    - secure: ImN6vqolX0brSlcpkM1AY9C/AxxClTID5UiDoJ6g86xy57bbD95OfP3WMdoCTXPeWXteIOV9Pid6Pywt3z3Rkb+IztgwjyP/GjfG/YE9ZIeSfE1Yber6nVXqqmjXtrpcPls9xZ5BbRFyw9FEzhpZnVo+Ecy+REQ4VTyJFjG7dMlgqaJB7MmgeIz2uCotmkwdUw2nxgsFQdsYL2knbM5e9xSvR5S0td3H+099Jh4M+cJRvX52sjyrj7lhXfOs8sZ7DrrKwj6dJH+raiwM8U1OEMBfwxz2cgKwuIGxHvGX49oJBftWDz5tfFCPPBW5YKsDzJvji6EAETyHIOY5AVCdVSZuAjkqWpxZRWfKbMQOc+ZG9Knr43Z4o7s1rlrAriRdRAZ1FpMEWngdjahUBLYxySZCobYv/flGZyl0wgW2r+qT5DXsVTdjZC/phm84uSgjwdj4vfIJZs4bx0o0W9kNW237fvHuPNnVg75I8c+r83wWOFSrzud3lbMt0VVKsXEC+aFXwWxvIK5Zzp5lo3fUdMe7PQ/r0axAtJT7td+tEbiN5ZTPQ534yx3ENg+YtKvjvI7HEoT9Gp07e+Gu8uaVhms5cnWl06iKgYizW7fuLAigYg8DhJ3cVYPmo5xjjkcx0VgLpDeMqA61ZQXzrE/TyHgFxaNDS1HEJHjSdc+yv7c=
-    
+# env:
+#   global:
+#     - PIP=pip
+#     - TWINE_USERNAME=__token__
+#     - secure: ImN6vqolX0brSlcpkM1AY9C/AxxClTID5UiDoJ6g86xy57bbD95OfP3WMdoCTXPeWXteIOV9Pid6Pywt3z3Rkb+IztgwjyP/GjfG/YE9ZIeSfE1Yber6nVXqqmjXtrpcPls9xZ5BbRFyw9FEzhpZnVo+Ecy+REQ4VTyJFjG7dMlgqaJB7MmgeIz2uCotmkwdUw2nxgsFQdsYL2knbM5e9xSvR5S0td3H+099Jh4M+cJRvX52sjyrj7lhXfOs8sZ7DrrKwj6dJH+raiwM8U1OEMBfwxz2cgKwuIGxHvGX49oJBftWDz5tfFCPPBW5YKsDzJvji6EAETyHIOY5AVCdVSZuAjkqWpxZRWfKbMQOc+ZG9Knr43Z4o7s1rlrAriRdRAZ1FpMEWngdjahUBLYxySZCobYv/flGZyl0wgW2r+qT5DXsVTdjZC/phm84uSgjwdj4vfIJZs4bx0o0W9kNW237fvHuPNnVg75I8c+r83wWOFSrzud3lbMt0VVKsXEC+aFXwWxvIK5Zzp5lo3fUdMe7PQ/r0axAtJT7td+tEbiN5ZTPQ534yx3ENg+YtKvjvI7HEoT9Gp07e+Gu8uaVhms5cnWl06iKgYizW7fuLAigYg8DhJ3cVYPmo5xjjkcx0VgLpDeMqA61ZQXzrE/TyHgFxaNDS1HEJHjSdc+yv7c=
 
 after_success:
 - codecov
