@@ -83,7 +83,7 @@ after_success:
 
 script:
   - tox
-  - pip install cibuildwheel==x.x.x
+  - pip install cibuildwheel
   - cibuildwheel --output-dir wheelhouse
   - |
     if [[ $TRAVIS_TAG ]]; then
