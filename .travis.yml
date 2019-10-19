@@ -98,8 +98,8 @@ after_success:
 script:
   - tox
   - |
-    # if [[ $TRAVIS_TAG ]] && [[ -n ${WHEEL_PATH:-} ]]; then
-    if [[ -n ${WHEEL_PATH:-} ]]; then
+    if [[ $TRAVIS_TAG ]] && [[ -n ${WHEEL_PATH:-} ]]; then
+    # if [[ -n ${WHEEL_PATH:-} ]]; then
       twine upload --repository-url https://upload.pypi.org/legacy/ --skip-existing --verbose $WHEEL_PATH/*.whl
     else
       echo ">>> Deploy conditions not met, skipping upload. <<<"
