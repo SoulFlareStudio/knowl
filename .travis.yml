@@ -91,11 +91,11 @@ script:
       python -m twine upload --skip-existing wheelhouse/*.whl
     fi
 
-deploy:
-  provider: pypi
-  skip_cleanup: true
-  on:
-    branch: master
-    distributions: sdist bdist_wheel
-    tags: true
-    python: 3.7
+# deploy:
+#   provider: pypi
+#   skip_cleanup: true
+#   on:
+#     branch: master
+#     distributions: sdist bdist_wheel
+#     tags: true
+#     python: 3.7
