@@ -32,7 +32,7 @@ matrix:
     - python: 3.7
       env:
         TOXENV=ci37
-        WHEEL_PATH=wheelhouse
+        WHEEL_PATH=.tox/dist
 
     - name: Python 3.8
       python: 3.8
@@ -74,7 +74,7 @@ before_install:
 - pip install -U pip
 - pip install -U pytest
 - pip install -U wheel
-- pip install tox
+- pip install tox tox-wheel
 - pip install codecov
 - pip install twine
 
@@ -95,7 +95,6 @@ after_success:
 
 script:
   - tox
-  - ls wheelhouse
   - |
     # if [[ $TRAVIS_TAG ]] && [[ -n ${WHEEL_PATH:-} ]]; then
     if [[ -n ${WHEEL_PATH:-} ]]; then
