@@ -12,11 +12,11 @@ os:
 
 matrix:
   include:
-    - name: Python 2.7
-      python: 2.7
-      env:
-        TOXENV=ci27
-        WHEEL_PATH=.tox/dist
+    # - name: Python 2.7
+    #   python: 2.7
+    #   env:
+    #     TOXENV=ci27
+    #     WHEEL_PATH=.tox/dist
 
     - name: Python 3.5
       python: 3.5
@@ -97,13 +97,13 @@ after_success:
 
 script:
   - tox
-  - |
-    if [[ $TRAVIS_TAG ]] && [[ -n ${WHEEL_PATH:-} ]]; then
-    # if [[ -n ${WHEEL_PATH:-} ]]; then
-      twine upload --repository-url https://upload.pypi.org/legacy/ --skip-existing --verbose $WHEEL_PATH/*.whl
-    else
-      echo ">>> Deploy conditions not met, skipping upload. <<<"
-    fi
+  # - |
+  #   if [[ $TRAVIS_TAG ]] && [[ -n ${WHEEL_PATH:-} ]]; then
+  #   # if [[ -n ${WHEEL_PATH:-} ]]; then
+  #     twine upload --repository-url https://upload.pypi.org/legacy/ --skip-existing --verbose $WHEEL_PATH/*.whl
+  #   else
+  #     echo ">>> Deploy conditions not met, skipping upload. <<<"
+  #   fi
 
   # - pip install -U pip
   # - pip install -U wheel
@@ -115,11 +115,11 @@ script:
   #     python -m twine upload --skip-existing wheelhouse/*.whl
   #   fi
 
-# deploy:
-#   provider: pypi
-#   skip_cleanup: true
-#   on:
-#     branch: master
-#     distributions: sdist bdist_wheel
-#     tags: true
-#     python: 3.7
+deploy:
+  provider: pypi
+  skip_cleanup: true
+  on:
+    branch: master
+    distributions: sdist bdist_wheel
+    tags: true
+    python: 3.7
