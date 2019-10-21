@@ -7,8 +7,12 @@ def test_basic_inmemory_setup():
     config = DBConfig(DBConfig.IN_MEMORY)
     ontoDB = OntologyDatabase(config)
     with pytest.raises(RuntimeError):
-        ontoDB.setup()  # if does not exist
+        # this should raise error, since DB does not exist and "create" is False
+        ontoDB.setup()
     ontoDB.setup(create=True)
+    with pytest.raises(ValueError):
+        # calling "DB.destroy" with an incorrect confirmation string should fail
+        ontoDB.destroy("I have no idea what this does!")
     ontoDB.destroy("I know what I am doing")
 
 # def inMemoryAPISetup(self):
