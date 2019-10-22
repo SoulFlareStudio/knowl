@@ -1,17 +1,18 @@
 language: python
 dist: bionic
 git:
-  depth: false
+  depth: false  # allegedly, this is supposed to be necessary for setuptools_scm to generate proper version based on git tag
 
 cache: pip
 
 os:
 - linux
 # - windows  # commented our since there is no Python support in CI-win
-# - osx
+# - osx  # ...aaaand it has issues on osx as well...
 
-matrix:
+matrix:  # define test matrix
   include:
+  # include various test environments - not sure, if this is the best way but...
     # - name: Python 2.7
     #   python: 2.7
     #   env:

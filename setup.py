@@ -9,7 +9,7 @@ with open('dependency_links.txt') as f:
     dependency_links = [l.strip() for l in f]
 
 test_requirements = [
-    'pytest', 'coverage', 'pytest-cov', 'pyyaml', "codecov"
+    'pytest', 'coverage', 'pytest-cov', 'pyyaml', "codecov", "sqlite3"
 ]
 
 with open("README.md", "r") as f:
