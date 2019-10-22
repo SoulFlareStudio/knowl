@@ -126,6 +126,8 @@ class OntologyDatabase:
         """
         if confirmation == "I know what I am doing":
             self._graph.destroy(self.identifier)
+        else:
+            raise ValueError("Destroying the DB attempted but failed - wrong confirmation string!")
 
     def setCredentials(self, username: str = None, password: str = None):
         """Set access credentials for the database server containing the triplestore.
