@@ -3,6 +3,7 @@ from knowl import OntologyDatabase, DBConfig, OntologyAPI
 from rdflib.namespace import FOAF, DOAP, OWL, DC
 
 
+@pytest.main.db_connection_tesing
 def test_basic_inmemory_setup():
     config = DBConfig(DBConfig.IN_MEMORY)
     ontoDB = OntologyDatabase(config)
