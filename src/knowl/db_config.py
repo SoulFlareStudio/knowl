@@ -78,6 +78,8 @@ class DBConfig(object):
                 cfg = yaml.safe_load(file)
             elif 'json' in extension.lower():
                 cfg = json.load(file)
+            else:
+                raise Exception(f"Unknown config extension {extension.lower()}!")
         return DBConfig(**cfg)
 
     IN_MEMORY = "sqlite://"
@@ -87,7 +89,8 @@ class DBConfig(object):
                  dialect: str = "mysql", driver: str = "pymysql",
                  database: str = "onto",
                  baseURL: str = "http://dbpedia.org/ontology/",
-                 namespaces: dict = {"foaf": FOAF}):
+                 namespaces: dict = {"foaf": FOAF},
+                 store:str = "alchemy"):
         """Creates a configuration object for RDFLib-SQLAlchemy store database.
 
         Parameters
@@ -130,6 +133,7 @@ class DBConfig(object):
         self.__database = database
         self.__baseURL = URIRef(baseURL)
         self.__namespaces = namespaces
+        self.__store = store
 
         self.__namespaces["base"] = self.baseURL + "#"
 
@@ -267,6 +271,10 @@ class DBConfig(object):
     @property
     def namespaces(self):
         return self.__namespaces
+
+    @property
+    def store(self):
+        return self.__store
 
     def __repr__(self):
         return "\n".join(("{}: {}".format(name, self[name]) for name in dir(self) if not (name.startswith('_') or callable(self[name]))))

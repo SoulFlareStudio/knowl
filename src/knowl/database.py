@@ -7,9 +7,11 @@
   file, You can obtain one at http://mozilla.org/MPL/2.0/.
 """
 
+from typing import Generator
 import rdflib
 from rdflib import Graph, Namespace
 from rdflib_sqlalchemy.store import SQLAlchemy
+from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore, Store, _node_to_sparql
 
 from knowl import DBConfig
 
@@ -49,6 +51,12 @@ def interact_with_db(func: callable):
     return wrapper
 
 
+def my_bnode_ext(node):
+   if isinstance(node, BNode):
+       return f'<bnode:b@{node}>'
+   return _node_to_sparql(node)
+
+
 class OntologyDatabase:
     """A front-end of an ontology database. This class provides "safe" access to most of the standard
     operations provided by the rdflib.Graph class. The "safeness" of the methods lies in catching
@@ -78,11 +86,20 @@ class OntologyDatabase:
         self.__username = None
         self.__password = None
         self.__create = create
+        self.__store_type = self.config["store"]
 
         # configure database identifier (ontology IRI/base URL)
         self.__identifier = self.config.baseURL
 
-        self.__store = SQLAlchemy(identifier=self.identifier)
+        if self.store_type == "alchemy":
+            self.__store = SQLAlchemy(identifier=self.identifier)
+        elif self.store_type == "fuseki":
+            self.__query_endpoint = f'http://{self.config["host"]}:{self.config["port"]}/{self.config["database"]}/query'
+            self.__update_endpoint = f'http://{self.config["host"]}:{self.config["port"]}/{self.config["database"]}/update'
+            self.__store = SPARQLUpdateStore(queryEndpoint=self.__query_endpoint, update_endpoint=self.__update_endpoint, context_aware=True, postAsEncoded=False, node_to_sparql=my_bnode_ext)
+            self.__store.method = 'POST'
+        else:
+            raise Exception(f"Unknown store type {self.store_type}!")
         self._graph = Graph(self.__store, identifier=self.identifier)
 
     def setup(self, create=False, username: str = None, password: str = None):
@@ -98,10 +115,13 @@ class OntologyDatabase:
         password : str, optional
             Database access credentials. Only set this if you didn't set it before (e.g. in the config file), by default None
         """
-        if self.__create is not None:
-            create = self.__create
-        self._graph.open(self.config.getDB_URI(self.__username if username is None else username, self.__password if password is None else password),
-                         create=create)
+        if self.store_type == "alchemy":
+            if self.__create is not None:
+                create = self.__create
+            self._graph.open(self.config.getDB_URI(self.__username if username is None else username, self.__password if password is None else password),
+                            create=create)
+        elif self.store_type == "fuseki":
+            self.__store.open((self.__query_endpoint, self.__update_endpoint))
         for ns, uri in self.config.namespaces.items():
             self._graph.bind(ns.lower(), uri)
 
@@ -166,13 +186,21 @@ class OntologyDatabase:
     def identifier(self):
         return self.__identifier
 
+    @property
+    def store_type(self):
+        return self.__store_type
+
     @interact_with_db
     def bind(self, prefix, namespace, override=True):
         self._graph.bind(prefix.lower(), namespace, override)
 
     @interact_with_db
-    def query(self, *args, **kwargs):
+    def query(self, *args, **kwargs) -> Generator:
         return self._graph.query(*args, **kwargs)
+
+    @interact_with_db
+    def update(self, *args, **kwargs) -> Generator:
+        return self._graph.update(*args, **kwargs)
 
     @interact_with_db
     def add(self, triple: tuple):

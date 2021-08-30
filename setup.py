@@ -1,23 +1,25 @@
 from setuptools import setup
 from setuptools import find_packages
+import os
 
+setup_dir = (os.path.dirname(os.path.realpath(__file__)))
 
-with open('requirements.txt') as f:
+with open(os.path.join(setup_dir, 'requirements.txt')) as f:
     requirements = [l.strip() for l in f]
 
-with open('dependency_links.txt') as f:
+with open(os.path.join(setup_dir, 'dependency_links.txt')) as f:
     dependency_links = [l.strip() for l in f]
 
 test_requirements = [
     'pytest', 'coverage', 'pytest-cov', 'pyyaml', "codecov", "sqlite3"
 ]
 
-with open("README.md", "r") as f:
+with open(os.path.join(setup_dir, "README.md"), "r") as f:
     long_description = f.read()
 
 setup(
     name='knowl',
-    use_scm_version=True,
+    use_scm_version=False,
     description='Knowledge Ontology-based OOP language',
     long_description_content_type='text/markdown',
     long_description=long_description,
