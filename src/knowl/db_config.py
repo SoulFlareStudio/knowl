@@ -90,7 +90,8 @@ class DBConfig(object):
                  database: str = "onto",
                  baseURL: str = "http://dbpedia.org/ontology/",
                  namespaces: dict = {"foaf": FOAF},
-                 store:str = "alchemy"):
+                 store:str = "alchemy",
+                 fuseki_path:str = ""):
         """Creates a configuration object for RDFLib-SQLAlchemy store database.
 
         Parameters
@@ -134,6 +135,7 @@ class DBConfig(object):
         self.__baseURL = URIRef(baseURL)
         self.__namespaces = namespaces
         self.__store = store
+        self.__fuseki_path = fuseki_path
 
         self.__namespaces["base"] = self.baseURL + "#"
 
@@ -275,6 +277,10 @@ class DBConfig(object):
     @property
     def store(self):
         return self.__store
+
+    @property
+    def fuseki_path(self):
+        return self.__fuseki_path
 
     def __repr__(self):
         return "\n".join(("{}: {}".format(name, self[name]) for name in dir(self) if not (name.startswith('_') or callable(self[name]))))

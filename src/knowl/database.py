@@ -52,9 +52,17 @@ def interact_with_db(func: callable):
 
 
 def my_bnode_ext(node):
-   if isinstance(node, BNode):
-       return f'<bnode:b@{node}>'
-   return _node_to_sparql(node)
+    if isinstance(node, BNode):
+        return f'<bnode:b@{node}>'
+    elif isinstance(node, list):
+        # print('***** > ', [my_bnode_ext(n) for n in node])
+        if len(node) == 1:
+            return my_bnode_ext(node[0])
+        else:
+            return [my_bnode_ext(n) for n in node]
+    elif isinstance(node, str):
+        return URIRef(node)
+    return node.n3()
 
 
 class OntologyDatabase:
@@ -94,7 +102,7 @@ class OntologyDatabase:
         if self.store_type == "alchemy":
             self.__store = SQLAlchemy(identifier=self.identifier)
         elif self.store_type == "fuseki":
-            self.__query_endpoint = f'http://{self.config["host"]}:{self.config["port"]}/{self.config["database"]}/query'
+            self.__query_endpoint = f'http://{self.config["host"]}:{self.config["port"]}/{self.config["database"]}'
             self.__update_endpoint = f'http://{self.config["host"]}:{self.config["port"]}/{self.config["database"]}/update'
             self.__store = SPARQLUpdateStore(queryEndpoint=self.__query_endpoint, update_endpoint=self.__update_endpoint, context_aware=True, postAsEncoded=False, node_to_sparql=my_bnode_ext)
             self.__store.method = 'POST'
@@ -122,6 +130,7 @@ class OntologyDatabase:
                             create=create)
         elif self.store_type == "fuseki":
             self.__store.open((self.__query_endpoint, self.__update_endpoint))
+            self._graph = Graph(self.__store, identifier=self.identifier)
         for ns, uri in self.config.namespaces.items():
             self._graph.bind(ns.lower(), uri)
 
