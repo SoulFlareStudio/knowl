@@ -51,17 +51,24 @@ def interact_with_db(func: callable):
     return wrapper
 
 
+# def my_bnode_ext(node):
+
+#    if isinstance(node, BNode):
+#        return '<bnode:b%s>' % node
+#    return _node_to_sparql(node)
+
 def my_bnode_ext(node):
+    # print(f"{node} @ {type(node)}")
     if isinstance(node, BNode):
         return f'<bnode:b@{node}>'
+    # elif isinstance(node, URIRef):
+    #     return node.n3()
     elif isinstance(node, list):
-        # print('***** > ', [my_bnode_ext(n) for n in node])
         if len(node) == 1:
             return my_bnode_ext(node[0])
         else:
             return [my_bnode_ext(n) for n in node]
-    elif isinstance(node, str):
-        return URIRef(node)
+    # return URIRef(node).n3()
     return node.n3()
 
 
@@ -101,14 +108,15 @@ class OntologyDatabase:
 
         if self.store_type == "alchemy":
             self.__store = SQLAlchemy(identifier=self.identifier)
+            self._graph = Graph(self.__store, identifier=self.identifier)
         elif self.store_type == "fuseki":
             self.__query_endpoint = f'http://{self.config["host"]}:{self.config["port"]}/{self.config["database"]}'
             self.__update_endpoint = f'http://{self.config["host"]}:{self.config["port"]}/{self.config["database"]}/update'
-            self.__store = SPARQLUpdateStore(queryEndpoint=self.__query_endpoint, update_endpoint=self.__update_endpoint, context_aware=True, postAsEncoded=False, node_to_sparql=my_bnode_ext)
+            self.__store = SPARQLUpdateStore(queryEndpoint=self.__query_endpoint + '/sparql', update_endpoint=self.__update_endpoint, context_aware=True, postAsEncoded=False, node_to_sparql=my_bnode_ext)
+            self.__query_endpoint += '/query'
             self.__store.method = 'POST'
         else:
             raise Exception(f"Unknown store type {self.store_type}!")
-        self._graph = Graph(self.__store, identifier=self.identifier)
 
     def setup(self, create=False, username: str = None, password: str = None):
         """Sets-up a new database connection. Call this to initialize access to the database.
@@ -129,6 +137,7 @@ class OntologyDatabase:
             self._graph.open(self.config.getDB_URI(self.__username if username is None else username, self.__password if password is None else password),
                             create=create)
         elif self.store_type == "fuseki":
+            print(f"Query endpoint: {self.__query_endpoint}\nUpdate endpoint: {self.__update_endpoint}\nIndentifier: {self.identifier}")
             self.__store.open((self.__query_endpoint, self.__update_endpoint))
             self._graph = Graph(self.__store, identifier=self.identifier)
         for ns, uri in self.config.namespaces.items():
